@@ -16,7 +16,7 @@ DarkChem uses Python 3.6.  The required dependencies are:
 
 ## Packages Used in DarkChem
 
-### `multiprocessing`
+### `multiprocessing`:This module allows the programmer to fully leverage multiple processors on a given machine
 
 ### `re`: Regular Expression Operations
 
