@@ -16,28 +16,26 @@ DarkChem uses Python 3.6.  The required dependencies are:
 
 ## Packages Used in DarkChem
 
-### `multiprocessing`:This module allows the programmer to fully leverage multiple processors on a given machine
+### `multiprocessing`:Support spawning processes package https://docs.python.org/3.4/library/multiprocessing.html?highlight=process
 
-### `re`: Regular Expression Operations
+### `re`: `Regular Expression Operations`: Strings checking package https://docs.python.org/2/library/re.html
 
-### `glob` A module for managing documents
-### `glob`: Pathnames finding module
-#### https://docs.python.org/2/library/glob.html
+### `glob`: Pathnames finding module https://docs.python.org/2/library/glob.html
 
-### `pandas`: Python Data Analysis Library
+### `pandas`: Python Data Analysis Library 
 
-### `subprocess` allows you to spawn new processes, connect to their input/output/error pipes, and obtain their return codes
+### `subprocess`: This package alloes you to spawn new processes https://docs.python.org/2/library/subprocess.html 
 
-### `os`  provides a method of using operating system dependent functionality
+### `os`: Miscellaneous operating system interfaces https://docs.python.org/3/library/os.html
 
-### `keras` A high-level neural networks API, the Python deep learning library.
+### `keras`: Neural-network and Deep Learning library https://keras.io/
 
-### `numpy` A calculation package for arrays and matrixs.
+### `numpy`
 
-### `ast` Abstract syntax trees,  helps programmers to parse and revise pyhton codes.
+### `ast`: `Abstract Syntax Trees`: 
 
-### `rdkit (Chem)`  This package relates smiles strings to Python coding, which means we can acquire a molecule properties with the the module. 
+### `rdkit (Chem)`
 
-### `functools (partial)` The module permits the immobilization of certain parameters of a function, then the function is renewed.
+### `functools (partial)`
 
-### `argparse` A Python built in package, which is utilized to analyze options and parameters of command lines.
+### `argparse`
