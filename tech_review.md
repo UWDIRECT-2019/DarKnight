@@ -21,6 +21,7 @@ DarkChem uses Python 3.6.  The required dependencies are:
 ### `re`: Regular Expression Operations
 
 ### `glob`: Pathnames finding module
+#### https://docs.python.org/2/library/glob.html
 
 ### `pandas`: Python Data Analysis Library
 
