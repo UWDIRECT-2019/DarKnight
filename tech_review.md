@@ -10,9 +10,9 @@ DarkChem uses Python 3.6.  The required dependencies are:
 - `numpy`
 - `scipy`
 - `scikit-learn`
-- `matplotlib:` data visualization package
-- `seaborn:` data visualization package
-- `pandas:` data structure package
+- `matplotlib` 
+- `seaborn` 
+- `pandas` 
 
 ## Packages Used in DarkChem
 
