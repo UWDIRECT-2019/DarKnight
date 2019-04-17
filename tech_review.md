@@ -20,22 +20,22 @@ DarkChem uses Python 3.6.  The required dependencies are:
 
 ### `re`: Regular Expression Operations
 
-### `glob`
+### `glob` A module for managing documents
 
 ### `pandas`: Python Data Analysis Library
 
-### `subprocess`
+### `subprocess` allows you to spawn new processes, connect to their input/output/error pipes, and obtain their return codes
 
-### `os`
+### `os`  provides a method of using operating system dependent functionality
 
-### `keras`
+### `keras` A high-level neural networks API, the Python deep learning library.
 
-### `numpy`
+### `numpy` A calculation package for arrays and matrixs.
 
-### `ast`
+### `ast` Abstract syntax trees,  helps programmers to parse and revise pyhton codes.
 
-### `rdkit (Chem)`
+### `rdkit (Chem)`  This package relates smiles strings to Python coding, which means we can acquire a molecule properties with the the module. 
 
-### `functools (partial)`
+### `functools (partial)` The module permits the immobilization of certain parameters of a function, then the function is renewed.
 
-### `argparse`
+### `argparse` A Python built in package, which is utilized to analyze options and parameters of command lines.
