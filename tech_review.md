@@ -25,7 +25,8 @@ DarkChem uses Python 3.6.  The required dependencies are:
 #### `glob`: Documenets managing and pathnames finding module 
 ##### https://docs.python.org/2/library/glob.html
 
-#### `pandas`: Python Data Analysis Library 
+#### `pandas`: Python Data Analysis Library
+##### https://pandas.pydata.org/
 
 #### `subprocess`: This package alloes you to spawn new processes 
 ##### https://docs.python.org/2/library/subprocess.html 
@@ -37,6 +38,7 @@ DarkChem uses Python 3.6.  The required dependencies are:
 ##### https://keras.io/
 
 #### `numpy`: Calculation package for arrays and matrixs
+##### http://cs231n.github.io/python-numpy-tutorial/
 
 #### `ast`: `Abstract Syntax Trees`: Pcakage helping programmers to parse and revise pyhton codes 
 ##### https://docs.python.org/3/library/ast.html
