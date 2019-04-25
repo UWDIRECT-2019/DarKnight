@@ -1,0 +1,7 @@
+[run]
+branch = True
+source = DarKnight/*
+include = DarKnight/*
+omit = */setup.py
+[report]
+include = DarKnight/*
