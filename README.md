@@ -41,8 +41,23 @@ Components: Input structure(s) and/or properties, convert structure(s) to latent
 * seaborn
 * pandas
 
-All required software can be installed at the command line
- * `pip install -r requirements.txt`
- * `python setup.py install`
-`pip` does not provide installation for rdkit. In the same environment, users need to install rdkit by,
- * `conda install -q -c rdkit rdkit`
+## Installation
+------------
+Use [``conda``](https://www.anaconda.com/download/) to create a new virtual environment with required dependencies:
+```bash
+conda create -n darkchem -c conda-forge -c rdkit -c openbabel keras tensorflow rdkit openbabel numpy scipy scikit-learn matplotlib seaborn pandas python=3
+```
+
+Activate the virtual environment:
+```
+conda activate darkchem
+```
+
+Install DarkChem using [``pip``](https://pypi.org/project/pip/):
+```bash
+# clone/install
+git clone https://github.com/xuliang2019/darkchem.git
+pip install darkchem/
+
+# direct
+pip install git+https://github.com/xuliang2019/darkchem.git
