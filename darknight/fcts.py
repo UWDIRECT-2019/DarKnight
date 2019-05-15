@@ -44,4 +44,29 @@ def struc2mol(sms):
     for i in range(sms.shape[0]):
         save['mol'][i] = Chem.MolFromSmiles(sms['smiles'][i])
     return save
-        
+
+def data_clean(data):
+    """
+    screen chemicla reactions only possess C/H/O/N/P/S elements
+    """
+    charset = ['F','l','B','r','I','i','M','g','L','b','a','e','K','V','d','R','Z','G','A','Y','u','H']
+    x = []
+    for i in range(data.shape[0]):
+        for j in range(len(data.iloc[i,1])):
+            if data.iloc[i,1][j] in charset:
+                x.append(i)
+                break
+    df = data[(True^data['Index'].isin(x))]
+    df.reset_index(drop=True, inplace=True)
+    return df
+
+def split_compounds(data):
+    """
+    split the reactants and prodcuts within one complete chemical reaction
+    """
+    df = pd.DataFrame(columns = ['Reactants','Products'])
+    for i in range(data.shape[0]):
+        a = data.iloc[i][1].split('	')
+        df.loc[i,'Reactants'] = a[0]
+        df.loc[i,'Products'] = a[1]
+    return df
