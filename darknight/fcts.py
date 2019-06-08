@@ -1,6 +1,10 @@
 import pandas as pd
 import numpy as np
 from rdkit.Chem import AllChem as Chem
+from rdkit.Chem import PandasTools,Draw
+import math
+import openbabel
+import darkchem
 
 
 def array_in_nd_array(test, array):
@@ -11,7 +15,6 @@ def array_in_nd_array(test, array):
     """
     return any(np.array_equal(x, test) for x in array)
 
-# A function to remove the space in the string
 def remove_space(data):
     """
     Remove the intermediate redundant space in the smiles strings,
@@ -23,7 +26,6 @@ def remove_space(data):
         data['Products'][i] = data['Products'][i].replace(' ','')
     return data
 
-# the function to count Pearson correlation
 def r2pcorr(data1,data2):
     """
     A function to calculate the Pearson Correlation Coefficient
@@ -39,17 +41,21 @@ def struc2mol(sms):
     A function to transform smiles strings to molecules with the module 
     rdkit.Chem.MolFromSmiles, and return a DataFrame
     """
-    save = pd.DataFrame(columns = ['smiles','mol'])
-    save['smiles'] = sms['smiles']
+    save = pd.DataFrame(columns = ['raw_smiles','smiles','mol'])
+    save['raw_smiles'] = sms['smiles']
     for i in range(sms.shape[0]):
         save['mol'][i] = Chem.MolFromSmiles(sms['smiles'][i])
+        if save['mol'][i] is None:
+            save['smiles'][i] = 'Invalid smi str'
+        else:
+            save['smiles'][i] = sms['smiles'][i]
     return save
 
 def data_clean(data):
     """
     screen chemicla reactions only possess C/H/O/N/P/S elements
     """
-    charset = ['F','l','B','r','I','i','M','g','L','b','a','e','K','V','d','R','Z','G','A','Y','u','H']
+    charset = ['F','l','B','r','I','i','M','g','L','b','a','e','K','V','d','R','Z','G','A','Y','u']
     x = []
     for i in range(data.shape[0]):
         for j in range(len(data.iloc[i,1])):
@@ -70,3 +76,197 @@ def split_compounds(data):
         df.loc[i,'Reactants'] = a[0]
         df.loc[i,'Products'] = a[1]
     return df
+
+def difference(lact,lprd):
+    """
+    Function utilized to calculate the difference between
+    the actual and predicted products latent vectors
+    """
+    d = []
+    for i in range(len(lact)):
+        s = 0
+        for j in range(lact.shape[1]):
+            s += (lact.iloc[i][j] - lprd.iloc[i][j])**2
+        s = np.sqrt(s)
+        d.append(s)
+    return d
+
+def vector_magnitude(data):
+    """
+    A function used to compute the average and std of magnitude of path vectors.
+    """
+    a = []
+    for i in range(len(data)):
+        s = 0
+        for j in range(data.shape[1]):
+            s += (data.iloc[i][j])**2
+        s = np.sqrt(s)
+        a.append(s)
+    aveg = np.average(a)
+    std = np.std(a)
+    print ('The average magnitude is:',aveg)
+    print ('The std magnitude is:',std)
+    #return aveg,std
+    
+def vector_angle(rct,prd):
+    """
+    A function used to compute the average and std of angle of path vectors
+    """
+    #u = []
+    #d = []
+    angle = []
+    for i in range(len(rct)):
+        up = 0
+        rm = 0
+        pm = 0
+        for j in range(rct.shape[1]):
+            up += rct.iloc[i][j] * prd.iloc[i][j]  #numerator
+            rm += (rct.iloc[i][j])**2  # the magnitude of reactant vector
+            pm += (prd.iloc[i][j])**2  # the magnitude of product vector
+        #u.append(up)
+        rm = np.sqrt(rm)
+        pm = np.sqrt(pm)
+        cos = up/(rm*pm)
+        a = math.degrees(math.acos(cos))
+        #d.append(rm*pm)
+        angle.append(a)
+    aveg = np.average(angle)
+    std = np.std(angle)
+    print('The average angle is:',aveg)
+    print('The std angle is:',std)
+
+def Standardize_SMI(smi):
+    """
+    A function used to standardize smile strings. For optimize prediction result purpose.
+    """
+    obConversion = openbabel.OBConversion()
+    obConversion.SetInAndOutFormats("smi", "smi")
+    mol = openbabel.OBMol()
+    obConversion.ReadString(mol, smi)
+    outMDL = obConversion.WriteString(mol)[:-2]
+    return outMDL
+
+def path_vec(data,model):
+    """
+    A function designed for the calculation of path vector for each type of chemical reaction.
+    """
+    rvec = [darkchem.utils.struct2vec(reactant) for reactant in data['Reactants']]
+    pvec = [darkchem.utils.struct2vec(product) for product in data['Products']]
+    rvec = np.array(rvec).astype(int)
+    pvec = np.array(pvec).astype(int)
+    r_latent = model.encoder.predict(rvec)
+    p_latent = model.encoder.predict(pvec)
+    rvecdf = pd.DataFrame(r_latent)
+    pvecdf = pd.DataFrame(p_latent)
+    path = pvecdf - rvecdf
+    path_vec =np.array(path.mean().values)
+    return path_vec
+
+def tranform(smi,model,path_vec,k):
+    """
+    The intermediate function used to tranform reactant smile string to product smile string 
+    """
+    test = darkchem.utils.struct2vec(smi)
+    test = np.array(test)
+    test = test.reshape(-1,100)
+    t_l = model.encoder.predict(test)
+    t_pre = t_l + path_vec
+    t_pred = model.decoder.predict(t_pre)
+    trs = darkchem.utils.beamsearch(t_pred, k=k)
+    trs = trs.reshape(-1,100)
+    v2s = [darkchem.utils.vec2struct(trs[i]) for i in range(len(trs))]
+    std = [Standardize_SMI(v2s[i]) for i in range(len(v2s))]
+    return std
+
+def pred_multiple(testdf,model,path_vec,k=1):
+    """
+    A function used to predict the products of many specific chemical reactions with the input of reactant smiles strings.
+    The default predicted consequence is one, you can change the value of k to get more probable forecasted results.
+    """
+    a = []
+    b = []
+    c = []
+    for i in range(len(testdf)): 
+        smi = testdf['Reactants'][i]
+        std = tranform(smi,model,path_vec,k)
+        c.append(std)
+        [a.append(std[i]) for i in range(len(std))]
+    for j in range(len(std)):
+        col = 'Product'
+        b.append(col)
+    out = pd.DataFrame(data = c, columns = b)
+    out.insert(0,'Reactants',testdf['Reactants'].values,)
+    df = struc2mol(pd.DataFrame(data = a,columns = ['smiles']))
+    display(PandasTools.FrameToGridImage(df,column='mol', legendsCol='smiles',molsPerRow=5))
+    return out
+
+def pred_single(smi,model,path_vec,k=1):
+    """
+     A function used to predict the product of a specific chemical reactions with the input of reactant smiles string.
+    The default predicted consequence is one, you can change the value of k to get more probable forecasted results.
+    """
+    c = []
+    b = []
+    std = tranform(smi,model,path_vec,k)
+    c.append(std)
+    for j in range(len(std)):
+        col = 'Product'
+        b.append(col)
+    out = pd.DataFrame(data = c, columns = b)
+    out.insert(0,'Reactant',smi)
+    df = struc2mol(pd.DataFrame(data = std,columns = ['smiles']))
+    display(PandasTools.FrameToGridImage(df,column='mol', legendsCol='smiles',molsPerRow=5))
+    return out
+
+def output_multiple(testdf,model,path_vec,k=15):
+    """
+    A function used to output the product of many specific chemical reactions with the input of reactant smiles strings.
+    The default value for k is 15.
+    """
+    a = []
+    b = []
+    c = []
+    for i in range(len(testdf)): 
+        smi = testdf['Reactants'][i]
+        a.append('Reactant')
+        c.append(smi)
+        std = tranform(smi,model,path_vec,k)
+        for j in range(len(std)):
+            if std[j] == smi.upper(): 
+                prd = std[j]
+                break
+            else:
+                prd = std[14]
+        a.append('Product')
+        c.append(prd)
+        b.append(prd)
+    out = pd.DataFrame(data = b, columns = ['Products'])
+    out.insert(0,'Reactants',testdf['Reactants'].values,)
+    df = struc2mol(pd.DataFrame(data = c,columns = ['smiles']))
+    df.insert(3,'legend',a)
+    display(PandasTools.FrameToGridImage(df,column='mol', legendsCol='legend',molsPerRow=2))
+    return out
+
+def output_single(smi,model,path_vec,k=15):
+    """
+     A function used to predict the product of a specific chemical reactions with the input of reactant smiles string.
+     When using beamsearch, the value of k is 15.
+    """
+    a = ['Reactant','Product']
+    b = [] 
+    c = [smi]
+    std = tranform(smi,model,path_vec,k)
+    for j in range(len(std)):
+        if std[j] == smi.upper(): # still need some more work
+            prd = std[j]
+            break
+        else:
+            prd = std[14]
+    b.append(prd)
+    c.append(prd)
+    out = pd.DataFrame(data = b, columns = ['Product'])
+    out.insert(0,'Reactant',smi)
+    df = struc2mol(pd.DataFrame(data = c,columns = ['smiles']))
+    df.insert(3,'legend',a)
+    display(PandasTools.FrameToGridImage(df,column='mol', legendsCol='legend',molsPerRow=5))
+    return out
