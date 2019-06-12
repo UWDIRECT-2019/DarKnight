@@ -1,5 +1,10 @@
 import pandas as pd
 import numpy as np
+from rdkit.Chem import AllChem as Chem
+from rdkit.Chem import PandasTools,Draw
+import math
+import openbabel
+import darkchem
 from .. import fcts
 
 def test_remove_space():
@@ -10,8 +15,10 @@ def test_remove_space():
     data = pd.DataFrame(data)
     data1 = pd.DataFrame(data1)
     data = fcts.remove_space(data)
+
     assert len(data['Reactants'][0]) == len(data1['Reactants'][0])
     assert len(data['Reactants'][1]) == len(data1['Reactants'][1])
     assert len(data['Products'][0]) == len(data1['Products'][0])
     assert len(data['Products'][1]) == len(data1['Products'][1])
+    
     return 0
