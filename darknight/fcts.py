@@ -73,7 +73,7 @@ def split_compounds(data):
     """
     df = pd.DataFrame(columns = ['Reactants','Products'])
     for i in range(data.shape[0]):
-        a = data.iloc[i][1].split('	')
+        a = data.iloc[i][1].split('→')
         df.loc[i,'Reactants'] = a[0]
         df.loc[i,'Products'] = a[1]
     return df
