@@ -253,9 +253,6 @@ def output_multiple(testdf,filepath,k=15):
         a.append('Reactant')
         c.append(smi)
         std = tranform(smi,model,path_vec,k)
-
-        for j in range(len(std)): # needs to further confirm
-            if std[j] == smi.upper(): 
         for j in range(len(std)):
             if std[j] == smi.upper():
                 prd = std[j]
