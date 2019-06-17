@@ -1,6 +1,6 @@
 """
 DarKnight.functions
-~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~
 General utility functions for DarKnight.
 """
 
@@ -139,6 +139,14 @@ def standardize_smi(smi):
 
 def path_vec(data, model):
     """Calculates the reaction path vector for each type of chemical reaction.
+
+    Args:
+        data: Dataframe with 'Reactants' and 'Products' as columns
+        model: Trained model containing latent space
+
+    Returns:
+        path_vec: Mean path vector between reactants and products as a
+            128-dimensional numpy array
     """
     rvec = [darkchem.utils.struct2vec(reactant) for reactant in data['Reactants']]
     pvec = [darkchem.utils.struct2vec(product) for product in data['Products']]
