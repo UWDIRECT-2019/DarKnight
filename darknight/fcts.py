@@ -5,7 +5,8 @@ from rdkit.Chem import PandasTools,Draw
 import math
 import openbabel
 import darkchem
-
+import tensorflow as tf
+tf.logging.set_verbosity(tf.logging.ERROR)
 
 def array_in_nd_array(test, array):
     """
@@ -135,6 +136,21 @@ def vector_angle(rct,prd):
     print('The average angle is:',aveg)
     print('The std angle is:',std)
 
+def load_model():
+    """
+    load the model that converts smiles strings to the latent space vectors.
+    """
+    model = darkchem.utils.load_model('N7b_[M+H]')
+    return model
+
+
+def load_path_vector(filepath):
+    """
+    load the path vector.
+    """
+    path_vec = np.load(filepath)
+    return path_vec
+
 def Standardize_SMI(smi):
     """
     A function used to standardize smile strings. For optimize prediction result purpose.
@@ -218,11 +234,13 @@ def pred_single(smi,model,path_vec,k=1):
     display(PandasTools.FrameToGridImage(df,column='mol', legendsCol='smiles',molsPerRow=5))
     return out
 
-def output_multiple(testdf,model,path_vec,k=15):
+def output_multiple(testdf,filepath,k=15):
     """
     A function used to output the product of many specific chemical reactions with the input of reactant smiles strings.
     The default value for k is 15.
     """
+    model = load_model()
+    path_vec = load_path_vector(filepath)
     a = []
     b = []
     c = []
@@ -231,7 +249,7 @@ def output_multiple(testdf,model,path_vec,k=15):
         a.append('Reactant')
         c.append(smi)
         std = tranform(smi,model,path_vec,k)
-        for j in range(len(std)):
+        for j in range(len(std)): # needs to further confirm
             if std[j] == smi.upper(): 
                 prd = std[j]
                 break
@@ -247,17 +265,19 @@ def output_multiple(testdf,model,path_vec,k=15):
     display(PandasTools.FrameToGridImage(df,column='mol', legendsCol='legend',molsPerRow=2))
     return out
 
-def output_single(smi,model,path_vec,k=15):
+def output_single(smi,filepath,k=15):
     """
      A function used to predict the product of a specific chemical reactions with the input of reactant smiles string.
      When using beamsearch, the value of k is 15.
     """
+    model = load_model()
+    path_vec = load_path_vector(filepath)
     a = ['Reactant','Product']
     b = [] 
     c = [smi]
     std = tranform(smi,model,path_vec,k)
     for j in range(len(std)):
-        if std[j] == smi.upper(): # still need some more work
+        if std[j] == smi.upper(): 
             prd = std[j]
             break
         else:
