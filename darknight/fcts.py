@@ -5,8 +5,12 @@ from rdkit.Chem import PandasTools,Draw
 import math
 import openbabel
 import darkchem
+
 import tensorflow as tf
 tf.logging.set_verbosity(tf.logging.ERROR)
+
+from IPython.display import display
+
 
 def array_in_nd_array(test, array):
     """
@@ -20,7 +24,7 @@ def remove_space(data):
     """
     Remove the intermediate redundant space in the smiles strings,
     The name of the column must be 'Reactants' and 'Products'
-    
+
     """
     for i in range(data.shape[0]):
         data['Reactants'][i] = data['Reactants'][i].replace(' ','')
@@ -39,7 +43,7 @@ def r2pcorr(data1,data2):
 
 def struc2mol(sms):
     """
-    A function to transform smiles strings to molecules with the module 
+    A function to transform smiles strings to molecules with the module
     rdkit.Chem.MolFromSmiles, and return a DataFrame
     """
     save = pd.DataFrame(columns = ['raw_smiles','smiles','mol'])
@@ -108,7 +112,7 @@ def vector_magnitude(data):
     print ('The average magnitude is:',aveg)
     print ('The std magnitude is:',std)
     #return aveg,std
-    
+
 def vector_angle(rct,prd):
     """
     A function used to compute the average and std of angle of path vectors
@@ -180,7 +184,7 @@ def path_vec(data,model):
 
 def tranform(smi,model,path_vec,k):
     """
-    The intermediate function used to tranform reactant smile string to product smile string 
+    The intermediate function used to tranform reactant smile string to product smile string
     """
     test = darkchem.utils.struct2vec(smi)
     test = np.array(test)
@@ -202,7 +206,7 @@ def pred_multiple(testdf,model,path_vec,k=1):
     a = []
     b = []
     c = []
-    for i in range(len(testdf)): 
+    for i in range(len(testdf)):
         smi = testdf['Reactants'][i]
         std = tranform(smi,model,path_vec,k)
         c.append(std)
@@ -244,13 +248,16 @@ def output_multiple(testdf,filepath,k=15):
     a = []
     b = []
     c = []
-    for i in range(len(testdf)): 
+    for i in range(len(testdf)):
         smi = testdf['Reactants'][i]
         a.append('Reactant')
         c.append(smi)
         std = tranform(smi,model,path_vec,k)
+
         for j in range(len(std)): # needs to further confirm
             if std[j] == smi.upper(): 
+        for j in range(len(std)):
+            if std[j] == smi.upper():
                 prd = std[j]
                 break
             else:
@@ -273,7 +280,7 @@ def output_single(smi,filepath,k=15):
     model = load_model()
     path_vec = load_path_vector(filepath)
     a = ['Reactant','Product']
-    b = [] 
+    b = []
     c = [smi]
     std = tranform(smi,model,path_vec,k)
     for j in range(len(std)):
