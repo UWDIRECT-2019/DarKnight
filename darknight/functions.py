@@ -1,7 +1,7 @@
 """
-darknight.utils
+DarKnight.functions
 ~~~~~~~~~~~~~~~~
-General utility functions for Darknight.
+General utility functions for DarKnight.
 """
 
 # Imports
