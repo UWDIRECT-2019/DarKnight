@@ -8,7 +8,7 @@ import openbabel
 import darkchem
 import sys
 sys.path.append("../..")
-import processing
+import process
 
 # Define testing function
 def test_remove_other_elements():
@@ -16,7 +16,7 @@ def test_remove_other_elements():
     data = pd.read_excel('test_remove_other_elements.xlsx')
 
     # Operate the function wihch is being tested
-    remove_other_elements = processing.remove_other_elements(data)
+    remove_other_elements = process.remove_other_elements(data)
 
     # Assert several arguments
     assert len(remove_other_elements.loc[remove_other_elements['Reactants'] == 'F']) == len(remove_other_elements.loc[remove_other_elements['Reactants'] == 'l'])
