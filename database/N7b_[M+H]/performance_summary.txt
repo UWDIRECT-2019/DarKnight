@@ -1,2 +1,0 @@
-Reconstruction accuracy: 0.9865
-Prediction error: [0.00544444 0.03687037]

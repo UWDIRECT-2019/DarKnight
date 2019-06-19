@@ -8,7 +8,7 @@ import openbabel
 import darkchem
 import sys
 sys.path.append("../..")
-import processing
+import process
 
 # Define testing function
 def test_split_reaction_pair():
@@ -16,7 +16,7 @@ def test_split_reaction_pair():
     data = pd.read_excel('test_split_reaction_pair.xlsx')
 
     # Operate the function wihch is being tested
-    split_reaction_pair = processing.split_reaction_pair(data)
+    split_reaction_pair = process.split_reaction_pair(data)
 
     # Assert several arguments
     assert len(data) == len(split_reaction_pair)
