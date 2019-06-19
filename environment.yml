@@ -12,7 +12,6 @@ dependencies:
   - boost-cpp=1.70.0
   - bzip2=1.0.6
   - c-ares=1.15.0
-  - ca-certificates=2019.6.16
   - cairo=1.16.0
   - certifi=2019.3.9
   - cffi=1.12.3
@@ -67,7 +66,6 @@ dependencies:
   - olefile=0.46
   - openbabel=2.4.1
   - openblas=0.3.5
-  - openssl=1.1.1b
   - packaging=19.0
   - pandas=0.24.2
   - patsy=0.5.1
@@ -117,5 +115,5 @@ dependencies:
   - zipp=0.5.1
   - zlib=1.2.11
   - zstd=1.4.0
+  - xlrd=1.2.0
 prefix: /Users/dacb/miniconda3/envs/darknight
-
