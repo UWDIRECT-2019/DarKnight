@@ -6,7 +6,6 @@ from rdkit.Chem import PandasTools,Draw
 import math
 import openbabel
 import darkchem
-from IPython.display import display
 import sys
 sys.path.append("../..")
 import processing
