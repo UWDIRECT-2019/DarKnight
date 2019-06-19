@@ -1,33 +1,37 @@
-# what language the build will be configured for
-language: python
-
+# specify what versions of python will be used
 # note that all of the versions listed will be tried
 python:
-  - "3.5"
-  - "3.6"
+    - 3.6
 
 # what branches should be evaluated
 branches:
-  only:
-    - master
+    only:
+        - master
 
 # list of commands to run to setup the environment
 install:
-  - pip install coverage
-  - pip install coveralls
-  - pip install pytest
-  - pip install flake8
-  - pip install -r requirements.txt
-  - cde data download
+    - sudo apt-get update
+    - wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
+    - bash miniconda.sh -b -p $HOME/miniconda
+    - export PATH="$HOME/miniconda/bin:$PATH"
+    - hash -r
+    - conda config --set always_yes yes --set changeps1 no
+    - conda update -q conda
+    - conda info -a
+    - conda env create -f environment.yml
+    - source activate darknight
+    - conda install pip
+    - pip install git+https://github.com/pnnl/darkchem
 
 # a list of commands to run before the main script
 before_script:
-  - export PYTHONPATH=$PYTHONPATH:$(pwd)
-#  - "flake8 paperparser"
+    - flake8 darknight --exit-zero  # note for production, the exit-zero should be removed
 
+# the actual commands to run
 script:
-  - pytest
-#  - coverage run -m unittest discover
+    - coverage run -m pytest darknight
 
 # generate a coverage report to send to back to user
-#after_success:
+after_success:
+    - coverage report
+    - coveralls

@@ -1,7 +1,7 @@
 # DarKnight
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://opensource.org/licenses/MIT)
-[![Build Status](https://travis-ci.org/sjluozho/PV_Cell.svg?branch=master)](https://travis-ci.org/sjluozho/PV_Cell)
-[![Coverage Status](https://coveralls.io/repos/github/sjluozho/PV_Cell/badge.svg?branch=master)](https://coveralls.io/github/sjluozho/PV_Cell?branch=master)
+[![Build Status](https://travis-ci.org/UWDIRECT-2019/DarKnight.svg?branch=master)](https://travis-ci.org/UWDIRECT-2019/DarKnight)
+[![Coverage Status](https://coveralls.io/repos/github/UWDIRECT-2019/DarKnight/badge.svg?branch=master)](https://coveralls.io/github/UWDIRECT-2019/DarKnight?branch=master)
 
 ## Overview
 The goal of our project is to explore the potential use of a PNNL-developed software package, DarkChem, to relate chemical transformations to observed physical properties. DarkChem uses a variational autoencoder (VAE) to encode molecular structure and properties in latent (numerical vector) space; the reverse transformation (decoding) allows for the retrieval of structures that match desired chemical properties. In our capstone project, we will explore how two molecules in this latent space, related through chemical reactions, are related. Understanding and identifying this relationship enables the application of DarkChem towards the prediction of unknown products in a chemical reaction, as well as their molecular properties.
@@ -43,21 +43,18 @@ Components: Input structure(s) and/or properties, convert structure(s) to latent
 
 ## Installation
 ------------
-Use [``conda``](https://www.anaconda.com/download/) to create a new virtual environment with required dependencies:
+Use [``conda``](https://www.anaconda.com/download/) to create a new virtual environment with required dependencies from the `environment.yml`:
 ```bash
-conda create -n darkchem -c conda-forge -c rdkit -c openbabel keras tensorflow rdkit openbabel numpy scipy scikit-learn matplotlib seaborn pandas python=3
+conda env create -f environment.yml
 ```
 
 Activate the virtual environment:
 ```
-conda activate darkchem
+conda activate darknight
 ```
 
 Install DarkChem using [``pip``](https://pypi.org/project/pip/):
 ```bash
-# clone/install
-git clone https://github.com/xuliang2019/darkchem.git
-pip install darkchem/
-
 # direct
-pip install git+https://github.com/xuliang2019/darkchem.git
+pip install git+https://github.com/pnnl/darkchem.git
+```
