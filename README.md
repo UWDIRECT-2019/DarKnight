@@ -1,6 +1,6 @@
 # DarKnight
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://opensource.org/licenses/MIT)
-[![Build Status](https://travis-ci.org/UWDIRECT-2019/DarKnight)](https://travis-ci.org/UWDIRECT-2019/DarKnight)
+[![Build Status](https://travis-ci.org/UWDIRECT-2019/DarKnight.svg?branch=master)](https://travis-ci.org/UWDIRECT-2019/DarKnight)
 [![Coverage Status](https://coveralls.io/repos/github/UWDIRECT-2019/DarKnight/badge.svg?branch=master)](https://coveralls.io/github/UWDIRECT-2019/DarKnight?branch=master)
 
 ## Overview
