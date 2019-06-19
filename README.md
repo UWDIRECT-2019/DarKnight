@@ -1,7 +1,7 @@
 # DarKnight
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://opensource.org/licenses/MIT)
 [![Build Status](https://travis-ci.org/UWDIRECT-2019/DarKnight.svg?branch=master)](https://travis-ci.org/UWDIRECT-2019/DarKnight.svg?branch=master)
-[![Coverage Status](https://coveralls.io/repos/github/sjluozho/PV_Cell/badge.svg?branch=master)](https://coveralls.io/github/sjluozho/PV_Cell?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/UWDIRECT-2019/DarKnight/badge.svg?branch=master)](https://coveralls.io/github/UWDIRECT-2019/DarKnight?branch=master)
 
 ## Overview
 The goal of our project is to explore the potential use of a PNNL-developed software package, DarkChem, to relate chemical transformations to observed physical properties. DarkChem uses a variational autoencoder (VAE) to encode molecular structure and properties in latent (numerical vector) space; the reverse transformation (decoding) allows for the retrieval of structures that match desired chemical properties. In our capstone project, we will explore how two molecules in this latent space, related through chemical reactions, are related. Understanding and identifying this relationship enables the application of DarkChem towards the prediction of unknown products in a chemical reaction, as well as their molecular properties.
