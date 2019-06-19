@@ -18,16 +18,18 @@ install:
   - pip install pytest
   - pip install flake8
   - pip install -r requirements.txt
-  - cde data download
+  - pip install git+https://github.com/pnnl/darkchem
 
 # a list of commands to run before the main script
 before_script:
   - export PYTHONPATH=$PYTHONPATH:$(pwd)
-#  - "flake8 paperparser"
+  - flake8 darknight --exit-zero  # note for production, the exit-zero should be removed
 
 script:
-  - pytest
-#  - coverage run -m unittest discover
+        #  - pytest
+  - coverage run -m pytest darknight
 
 # generate a coverage report to send to back to user
-#after_success:
+after_success:
+    - coverage report
+    - coveralls
