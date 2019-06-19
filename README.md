@@ -43,21 +43,18 @@ Components: Input structure(s) and/or properties, convert structure(s) to latent
 
 ## Installation
 ------------
-Use [``conda``](https://www.anaconda.com/download/) to create a new virtual environment with required dependencies:
+Use [``conda``](https://www.anaconda.com/download/) to create a new virtual environment with required dependencies from the `environment.yml`:
 ```bash
-conda create -n darkchem -c conda-forge -c rdkit -c openbabel keras tensorflow rdkit openbabel numpy scipy scikit-learn matplotlib seaborn pandas python=3
+conda env create -f environment.yml
 ```
 
 Activate the virtual environment:
 ```
-conda activate darkchem
+conda activate darknight
 ```
 
 Install DarkChem using [``pip``](https://pypi.org/project/pip/):
 ```bash
-# clone/install
-git clone https://github.com/xuliang2019/darkchem.git
-pip install darkchem/
-
 # direct
-pip install git+https://github.com/xuliang2019/darkchem.git
+pip install git+https://github.com/pnnl/darkchem.git
+```
