@@ -9,7 +9,7 @@ General utility functions for DarKnight.
 import pandas as pd
 import numpy as np
 from rdkit.Chem import AllChem as Chem
-from rdkit.Chem import PandasTools,Draw
+from rdkit.Chem import PandasTools, Draw
 import math
 import openbabel
 import darkchem
@@ -125,7 +125,7 @@ def vector_angle(rct, prd):
 
 
 def standardize_smi(smi):
-    """Standardizes SMILES strings into canonical SMILES strings through
+    """Standardizes SMILES strings into SMILES strings through
     OpenBabel.
     (Important in optimizing prediction results.)
     """
@@ -134,6 +134,19 @@ def standardize_smi(smi):
     mol = openbabel.OBMol()
     obConversion.ReadString(mol, smi)
     outMDL = obConversion.WriteString(mol)[:-2]
+    return outMDL
+
+def standardize_can(smi):
+    """Standardizes SMILES strings into canonical SMILES strings through
+    OpenBabel.
+    (Important in optimizing prediction results.)
+    """
+    obconversion = openbabel.OBConversion()
+    obconversion.SetOutFormat("can")
+    #obconversion.SetInAndOutFormats("smi", "can")
+    obmol = openbabel.OBMol()
+    obconversion.ReadString(obmol, smi)
+    outMDL = obconversion.WriteString(obmol)[:-2]
     return outMDL
 
 
@@ -145,8 +158,8 @@ def path_vec(data, model):
         model: Trained model containing latent space
 
     Returns:
-        path_vec: Mean path vector between reactants and products as a
-            128-dimensional numpy array
+        A 128-dimensional numpy array representation of the mean path vector
+            between reactants and products contained in the input dataframe
     """
     rvec = [darkchem.utils.struct2vec(reactant) for reactant in data['Reactants']]
     pvec = [darkchem.utils.struct2vec(product) for product in data['Products']]
