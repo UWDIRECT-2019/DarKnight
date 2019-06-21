@@ -61,4 +61,4 @@ pip install git+https://github.com/pnnl/darkchem.git
 
 ## DarKnight Instruction
 <div align=center> <img src="https://github.com/UWDIRECT-2019/DarKnight/raw/master/GUI/GUI.jpg" width="400"> </div>
-As the photo showed above, what we need to do is input our reactant smile strings and select the exactly type of reaction, then click the `Prediction` button, finally we will get the result in 15 seconds
+As the photo showed above, what we need to do is input our reactant smile strings and select the exactly type of reaction, then click the Prediction button, finally we will get the result in 15 seconds
