@@ -14,6 +14,8 @@ import math
 import openbabel
 import darkchem
 from IPython.display import display
+import tensorflow as tf
+tf.logging.set_verbosity(tf.logging.ERROR)
 
 
 # Functions
@@ -250,6 +252,9 @@ def output_multiple_prod(testdf, model, path_vec, k=15):
             if std[j] == smi.upper():
                 prd = std[j]
                 break
+            elif smi.replace('#','') == std[j]:
+                prd = std[j]
+                break      
             else:
                 prd = std[14]
         a.append('Product')
@@ -263,7 +268,7 @@ def output_multiple_prod(testdf, model, path_vec, k=15):
     return out
 
 
-def output_single_prod(smi,model,path_vec,k=15):
+def output_single_prod(smi,model,path_vec,k=15):  
     """A function used to predict the product of a specific chemical reactions with the input of reactant smiles string.
      When using beamsearch, the value of k is 15.
     """
@@ -272,9 +277,12 @@ def output_single_prod(smi,model,path_vec,k=15):
     c = [smi]
     std = transform_r2p_str(smi,model,path_vec,k)
     for j in range(len(std)):
-        if std[j] == smi.upper(): # still need some more work
+        if std[j] == smi.upper(): # still need some more work, not applied to all reactions
             prd = std[j]
             break
+        elif smi.replace('#','') == std[j]:
+            prd = std[j]
+            break      
         else:
             prd = std[14]
     b.append(prd)
