@@ -22,7 +22,7 @@ def load_model():
     """
     load the model that converts smiles strings to the latent space vectors.
     """
-    model = darkchem.utils.load_model('N7b_[M+H]')
+    model = darkchem.utils.load_model('../models/N7b_[M+H]')
     return model
 
 
@@ -103,6 +103,9 @@ class Runthread(QThread):
             if std[j] == smi.upper():
                 prd = std[j]
                 break
+            elif smi.replace('#', '') == std[j]:
+                prd = std[j]
+                break
             else:
                 prd = std[14]
         b.append(prd)
@@ -115,7 +118,7 @@ class Runthread(QThread):
         a = np.array(out)
         scipy.misc.imsave('outfile.png', a)
         figname = 'outfile.png'
-        time.sleep(3)
+        #time.sleep(3)
         self._signal.emit(str(figname))
         # self.trigger.emit()
 
@@ -125,7 +128,7 @@ class ShowProgress(QThread):
     This class is designed for the progressbar
     """
 
-    progressBarValue = pyqtSignal(int)  # 更新进度条
+    progressBarValue = pyqtSignal(int)
 
     def __init__(self):
         super(ShowProgress, self).__init__()
@@ -133,15 +136,15 @@ class ShowProgress(QThread):
 
     def run(self):
         for i in range(101):
-            time.sleep(0.11)
-            self.progressBarValue.emit(i)  # 发送进度条的值 信号
+            time.sleep(0.07)
+            self.progressBarValue.emit(i)
       
         
 class Prediction(QWidget):
     def __init__(self):
         super(Prediction, self).__init__()
 
-        self.setWindowIcon(QIcon('../figures/logo.jpg'))
+        self.setWindowIcon(QIcon('../figures/darknight_icon.ico'))
 
         self.progressBar = QProgressBar(self)
         self.progressBar.setGeometry(160, 280, 440, 20)
