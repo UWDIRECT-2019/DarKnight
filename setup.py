@@ -1,28 +1,31 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import os
 from setuptools import setup, find_packages
 
 
-if os.path.exists('README.rst'):
-    long_description = open('README.rst').read()
-else:
-    long_description = '''An extension for DarkChem which predicts the products of chemical reactions and evaluates their encoding in DarkChem's latent space to return resultant properties.'''
+with open('README.md') as f:
+    readme = f.read()
+
+with open('LICENSE') as f:
+    license = f.read()
+
+pkgs = find_packages(exclude=('example', 'docs', 'database'))
 
 setup(
     name='DarKnight',
     version='0.1',
     author='Christine Chang, Chih-Wei Hsu, Liang Xu',
-    author_email='changch@uw.edu, cwh32@uw.edu, xuliang1@uw.edu'
-    license='MIT',
+    author_email='changch@uw.edu, cwh32@uw.edu, xuliang1@uw.edu',
+    license=license,
     url='https://github.com/UWDIRECT-2019/DarKnight',
-    packages=find_packages(),
+    packages=pkgs,
     description='Package to predict chemical reaction products and properties',
-    long_description=long_description,
+    long_description=readme,
     keywords='chemistry vae variational autoencoder latent space',
+    # There is a problem for the rdkit package, we can't find its source from our terminal. So I deleted it temporarily.
     install_requires=[
-        'darkchem', 'rdkit', 'keras', 'tensorflow', 'openbabel', 'scikit-learn', 'mordred', 'numpy', 'scipy', 'matplotlib', 'seaborn', 'pandas'
+        'darkchem', 'keras', 'tensorflow', 'openbabel', 'scikit-learn', 'mordred', 'numpy', 'scipy', 'matplotlib', 'seaborn', 'pandas'
     ],
     classifiers=[
         'Intended Audience :: Developers',
