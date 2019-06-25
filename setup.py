@@ -5,11 +5,12 @@ import os
 from setuptools import setup, find_packages
 
 
-if os.path.exists('README.rst'):
-    long_description = open('README.rst').read()
-else:
-    long_description = '''An extension for DarkChem which predicts the products of chemical reactions and evaluates their encoding in DarkChem's latent space to return resultant properties.'''
+# if os.path.exists('README.rst'):
+#     long_description = open('README.rst').read()
+# else:
+#     long_description = '''An extension for DarkChem which predicts the products of chemical reactions and evaluates their encoding in DarkChem's latent space to return resultant properties.'''
 
+long_description = '''An extension for DarkChem which predicts the products of chemical reactions and evaluates their encoding in DarkChem's latent space to return resultant properties.'''
 with open('LICENSE') as f:
     license = f.read()
     
