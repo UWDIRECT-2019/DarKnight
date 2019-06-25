@@ -10,6 +10,9 @@ if os.path.exists('README.rst'):
 else:
     long_description = '''An extension for DarkChem which predicts the products of chemical reactions and evaluates their encoding in DarkChem's latent space to return resultant properties.'''
 
+with open('LICENSE') as f:
+    license = f.read()
+    
 setup(
     name='DarKnight',
     version='0.1',
