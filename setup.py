@@ -23,9 +23,8 @@ setup(
     description='Package to predict chemical reaction products and properties',
     long_description=readme,
     keywords='chemistry vae variational autoencoder latent space',
-    # There is a problem for the rdkit package, we can't find its source from our terminal. So I deleted it temporarily.
     install_requires=[
-        'darkchem', 'keras', 'tensorflow', 'openbabel', 'scikit-learn', 'mordred', 'numpy', 'scipy', 'matplotlib', 'seaborn', 'pandas'
+        'darkchem', 'keras', 'tensorflow','rdkit', 'openbabel', 'scikit-learn', 'mordred', 'numpy', 'scipy', 'matplotlib', 'seaborn', 'pandas'
     ],
     classifiers=[
         'Intended Audience :: Developers',
