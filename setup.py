@@ -18,7 +18,7 @@ setup(
     version='0.1',
     author='Christine Chang, Chih-Wei Hsu, Liang Xu',
     author_email='changch@uw.edu, cwh32@uw.edu, xuliang1@uw.edu'
-    license='MIT',
+    license= license,
     url='https://github.com/UWDIRECT-2019/DarKnight',
     packages=find_packages(),
     description='Package to predict chemical reaction products and properties',
